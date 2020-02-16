@@ -10,11 +10,12 @@ use App\ExchangeRateHistory;
 use GuzzleHttp\Client;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ExchangeRateController extends Controller
 {
 
-    public function index(): Response
+    public function index(): View
     {
         return view('exchangerate.index');
     }
@@ -51,7 +52,7 @@ class ExchangeRateController extends Controller
             $exchangeRate['currency']
         );
 
-        $data = json_decode($response->getBody());
+        $data = json_decode($response->getBody()->getContents());
 
         if ($response->getStatusCode() != 200) {
             return Redirect::back()->withErrors(
